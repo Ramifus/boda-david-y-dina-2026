@@ -1,0 +1,771 @@
+---
+// DespedidaBoda.astro
+---
+
+<section class="relative w-full py-4 px-6">
+    <!-- CONTENEDOR PRINCIPAL -->
+    <div class="max-w-md mx-auto relative z-10" id="wrapper-despedida">
+        <!-- DESPEDIDA -->
+        <div class="text-center opacity-0" id="despedida-content">
+            <!-- Título -->
+            <h3
+                class="text-[#9C7A2E] tracking-[0.2em] uppercase text-xl md:text-2xl lg:text-2xl xl:text-3xl font-semibold mb-6"
+            >
+                Querida Familia y Amigos
+            </h3>
+
+            <!-- Icono Corazón -->
+            <div class="flex justify-center mb-6">
+                <svg
+                    class="w-8 h-8 md:w-20 md:h-20 text-[#9C7A2E]"
+                    viewBox="0 0 24 24"
+                    fill="currentColor"
+                    id="icono-corazon"
+                >
+                    <path
+                        d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"
+                    ></path>
+                </svg>
+            </div>
+
+            <!-- Mensaje Principal -->
+            <p
+                class="font-charm text-[#0a285e] text-xl md:text-2xl lg:text-3xl mb-6 leading-relaxed"
+            >
+                Nos llena de felicidad poder compartir con ustedes este momento
+                tan único y especial. Con la esperanza de que hagamos de este
+                día un recuerdo inolvidable. Los esperamos con los corazones
+                llenos de emoción, listos para celebrar el amor y crear memorias
+                que permanezcan siempre en nuestros corazones.
+            </p>
+
+            <!-- Texto Confirmar Asistencia -->
+            <p
+                class="font-charm text-[#9C7A2E] text-lg md:text-2xl lg:text-3xl xl:text-3xl font-bold mb-4"
+            >
+                Esperamos contar con tu presencia
+            </p>
+
+            <p
+                class="text-[#0a285e]/70 text-sm md:text-xl lg:text-3xl xl:text-3xl mb-6"
+            >
+                Por favor, confirma tu asistencia haciendo clic en el botón
+            </p>
+
+            <!-- Botón Confirmar con MANO -->
+            <div class="flex items-center justify-center">
+                <div class="relative">
+                    <button
+                        type="button"
+                        id="btn-abrir-confirmacion"
+                        class="bg-[#0a285e]
+                    hover:bg-[#0a285e] text-white px-8 py-3 rounded text-base
+                    md:text-lg lg:text-xl xl:text-2xl font-semibold
+                    transition-all duration-300 shadow-md hover:shadow-lg
+                    inline-flex items-center gap-3 text-center cursor-pointer"
+                    >
+                        <svg
+                            class="w-5 h-5 md:w-6 md:h-6 text-[#C9A961]"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="1.8"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            aria-hidden="true"
+                        >
+                            <rect x="3" y="5" width="18" height="14" rx="2"></rect>
+                            <path d="M3 7l9 6 9-6"></path>
+                        </svg>
+                        Confirmar asistencia
+                    </button>
+
+                    <!-- MANO apuntando al botón -->
+                    <img
+                        src="/imagenes/mano.png"
+                        alt="Presionar aquí"
+                        class="absolute -bottom-4 -right-4 w-8 h-8 object-contain opacity-0 pointer-events-none z-20"
+                        id="mano-pointer-despedida"
+                    />
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ═════════════════════════════════════════════════════════════ -->
+    <!-- 🌸 HOJAS Y FLORES CON MOVIMIENTO NATURAL - ENCIMA DEL CONTENIDO -->
+    <!-- ═════════════════════════════════════════════════════════════ -->
+
+    <!-- LADO IZQUIERDO -->
+    <!-- Hoja dorada izquierda (CAPA INFERIOR) -->
+    <img
+        src="/imagenes/hojadorada.png"
+        alt="hoja dorada"
+        class="absolute left-0 top-12 md:top-24 w-18 h-18 md:w-28 md:h-28 opacity-0 pointer-events-none z-40"
+        id="hoja-despedida-left"
+    />
+
+    <!-- Flor lateral izquierda (CAPA SUPERIOR) -->
+    <img
+        src="/imagenes/florlateral.png"
+        alt="hojas"
+        class="absolute left-0 top-18 md:top-24 w-18 h-18 md:w-28 md:h-28 opacity-0 pointer-events-none z-50"
+        id="flor-despedida-left"
+    />
+
+    <!-- LADO DERECHO -->
+    <!-- Hoja dorada derecha (CAPA INFERIOR) -->
+    <img
+        src="/imagenes/hojadorada.png"
+        alt="hoja dorada"
+        class="absolute right-0 top-12 md:top-24 w-18 h-18 md:w-28 md:h-28 opacity-0 pointer-events-none z-40 scale-x-[-1]"
+        id="hoja-despedida-right"
+    />
+
+    <!-- Flor lateral derecha (CAPA SUPERIOR) -->
+    <img
+        src="/imagenes/florlateral.png"
+        alt="hojas"
+        class="absolute right-0 top-18 md:top-24 w-18 h-18 md:w-28 md:h-28 opacity-0 pointer-events-none z-50 scale-x-[-1]"
+        id="flor-despedida-right"
+    />
+
+    <!-- ═════════════════════════════════════════════════════════════ -->
+    <!-- 💌 MODAL DE CONFIRMACIÓN (se mueve al <body> al cargar)       -->
+    <!-- ═════════════════════════════════════════════════════════════ -->
+    <div
+        id="modal-confirmacion"
+        class="fixed inset-0 z-[100] hidden items-center justify-center px-5 overscroll-contain touch-none"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="titulo-modal-confirmacion"
+    >
+        <!-- Fondo -->
+        <div
+            class="absolute inset-0 bg-[#0a285e]/60 backdrop-blur-sm"
+            data-cerrar-modal
+        >
+        </div>
+
+        <!-- Tarjeta -->
+        <div
+            class="relative w-full max-w-sm md:max-w-md rounded-3xl border-2 border-[#C9A961]/50 shadow-2xl px-7 py-9 md:px-10 md:py-11 text-center fondo-modal"
+            id="tarjeta-modal-confirmacion"
+        >
+            <!-- Cerrar -->
+            <button
+                type="button"
+                class="absolute top-4 right-4 w-9 h-9 rounded-full flex items-center justify-center text-[#0a285e]/60 hover:text-[#0a285e] transition-colors cursor-pointer"
+                aria-label="Cerrar"
+                data-cerrar-modal
+            >
+                <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round">
+                    <path d="M6 6l12 12M18 6L6 18"></path>
+                </svg>
+            </button>
+
+            <!-- Formulario -->
+            <div id="paso-formulario">
+                <!-- Ícono -->
+                <div class="flex justify-center mb-4">
+                    <div class="w-14 h-14 rounded-full border border-[#C9A961]/60 flex items-center justify-center">
+                        <svg class="w-7 h-7 text-[#C9A961]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                            <rect x="3" y="5" width="18" height="14" rx="2"></rect>
+                            <path d="M3 7l9 6 9-6"></path>
+                        </svg>
+                    </div>
+                </div>
+
+                <h3
+                    id="titulo-modal-confirmacion"
+                    class="text-[#9C7A2E] tracking-[0.2em] uppercase text-lg md:text-xl font-semibold mb-2"
+                >
+                    Confirma tu asistencia
+                </h3>
+
+                <!-- Línea decorativa -->
+                <div class="flex items-center justify-center gap-2 mb-5">
+                    <div class="w-12 h-px bg-gradient-to-r from-transparent to-[#C9A961]"></div>
+                    <span class="text-[#C9A961] text-xs">✦</span>
+                    <div class="w-12 h-px bg-gradient-to-l from-transparent to-[#C9A961]"></div>
+                </div>
+
+                <p class="font-charm text-[#0a285e]/80 text-lg md:text-xl leading-relaxed mb-6">
+                    Nos encantaría saber si podrás acompañarnos
+                </p>
+
+                <!-- Nombre -->
+                <label
+                    for="nombre-invitado"
+                    class="block text-left text-[#0a285e]/70 text-xs md:text-sm tracking-[0.15em] uppercase mb-2"
+                >
+                    Nombre completo
+                </label>
+                <input
+                    type="text"
+                    id="nombre-invitado"
+                    name="nombre"
+                    autocomplete="name"
+                    placeholder="Escribe tu nombre"
+                    class="w-full rounded-xl border border-[#0a285e]/20 px-4 py-3 text-[#0a285e] text-base md:text-lg placeholder:text-[#0a285e]/35 focus:outline-none focus:border-[#C9A961] focus:ring-2 focus:ring-[#C9A961]/30 transition-all fondo-input"
+                />
+                <p
+                    id="error-nombre"
+                    class="hidden text-left text-[#b23a3a] text-sm mt-2"
+                >
+                    Por favor, escribe tu nombre
+                </p>
+
+                <!-- Botones -->
+                <div class="flex flex-col gap-3 mt-7">
+                    <button
+                        type="button"
+                        data-respuesta="si"
+                        class="w-full bg-[#0a285e] text-white py-3 rounded-xl text-base md:text-lg font-semibold shadow-md hover:shadow-lg transition-all duration-300 cursor-pointer"
+                    >
+                        Confirmar asistencia
+                    </button>
+                    <button
+                        type="button"
+                        data-respuesta="no"
+                        class="w-full border-2 border-[#0a285e]/70 text-[#0a285e] py-3 rounded-xl text-base md:text-lg font-semibold hover:bg-[#0a285e]/5 transition-all duration-300 cursor-pointer"
+                    >
+                        No asistiré
+                    </button>
+                </div>
+            </div>
+
+            <!-- Mensaje de gracias -->
+            <div id="paso-gracias" class="hidden">
+                <div class="flex justify-center mb-4">
+                    <svg class="w-14 h-14 text-[#C9A961]" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                        <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"></path>
+                    </svg>
+                </div>
+                <h3
+                    class="text-[#9C7A2E] tracking-[0.2em] uppercase text-lg md:text-xl font-semibold mb-3"
+                    id="titulo-gracias"
+                >
+                    ¡Gracias!
+                </h3>
+                <p
+                    class="font-charm text-[#0a285e] text-lg md:text-xl leading-relaxed mb-7"
+                    id="texto-gracias"
+                >
+                </p>
+                <button
+                    type="button"
+                    class="bg-[#0a285e] text-white px-8 py-3 rounded-xl text-base md:text-lg font-semibold shadow-md cursor-pointer"
+                    data-cerrar-modal
+                >
+                    Cerrar
+                </button>
+            </div>
+        </div>
+    </div>
+</section>
+
+<style>
+    /* Blancos como imagen: el modo oscuro forzado no los invierte */
+    .fondo-modal {
+        background-image: linear-gradient(#fff, #fff);
+    }
+    .fondo-input {
+        background-image: linear-gradient(#fff, #fff);
+    }
+</style>
+
+<script>
+    import { gsap } from "gsap";
+
+    // URL /exec del Apps Script (ver apps-script-confirmaciones.gs en la raíz)
+    const SCRIPT_URL =
+        "https://script.google.com/macros/s/AKfycbzeRbMepN65p9Hto3ym0DwPj-KjIde4tVKN23MynjnxEHPSEnmgrq4FaYTQWH6fZysg/exec";
+
+    const initModalConfirmacion = () => {
+        const modal = document.getElementById("modal-confirmacion");
+        const tarjeta = document.getElementById("tarjeta-modal-confirmacion");
+        const abrir = document.getElementById("btn-abrir-confirmacion");
+        const input = document.getElementById("nombre-invitado") as HTMLInputElement | null;
+        const error = document.getElementById("error-nombre");
+        const pasoFormulario = document.getElementById("paso-formulario");
+        const pasoGracias = document.getElementById("paso-gracias");
+        const textoGracias = document.getElementById("texto-gracias");
+        if (!modal || !tarjeta || !abrir || !input || !error || !pasoFormulario || !pasoGracias || !textoGracias) return;
+        if (modal.dataset.listo) return;
+        modal.dataset.listo = "1";
+
+        // Fuera de los contenedores animados, para que "fixed" cubra toda la pantalla
+        document.body.appendChild(modal);
+
+        // Bloqueo del fondo: el body queda fijo en su lugar (funciona también en iPhone)
+        let scrollGuardado = 0;
+        const estiloPrevio = { position: "", top: "", left: "", right: "", width: "", overflow: "" };
+
+        const bloquearFondo = () => {
+            scrollGuardado = window.scrollY;
+            const b = document.body.style;
+            Object.assign(estiloPrevio, {
+                position: b.position, top: b.top, left: b.left, right: b.right, width: b.width, overflow: b.overflow,
+            });
+            b.position = "fixed";
+            b.top = `-${scrollGuardado}px`;
+            b.left = "0";
+            b.right = "0";
+            b.width = "100%";
+            b.overflow = "hidden";
+        };
+
+        const liberarFondo = () => {
+            Object.assign(document.body.style, estiloPrevio);
+            window.scrollTo(0, scrollGuardado);
+        };
+
+        const abrirModal = () => {
+            pasoFormulario.classList.remove("hidden");
+            pasoGracias.classList.add("hidden");
+            error.classList.add("hidden");
+            bloquearFondo();
+            modal.classList.remove("hidden");
+            modal.classList.add("flex");
+            gsap.fromTo(modal, { opacity: 0 }, { opacity: 1, duration: 0.3, ease: "power1.out" });
+            gsap.fromTo(tarjeta, { y: 30, scale: 0.95 }, { y: 0, scale: 1, duration: 0.5, ease: "back.out(1.4)" });
+            setTimeout(() => input.focus({ preventScroll: true }), 350);
+        };
+
+        const cerrarModal = () => {
+            gsap.to(modal, {
+                opacity: 0,
+                duration: 0.25,
+                ease: "power1.in",
+                onComplete: () => {
+                    modal.classList.add("hidden");
+                    modal.classList.remove("flex");
+                    liberarFondo();
+                },
+            });
+        };
+
+        abrir.addEventListener("click", abrirModal);
+        modal.querySelectorAll("[data-cerrar-modal]").forEach((el) => el.addEventListener("click", cerrarModal));
+        document.addEventListener("keydown", (e) => {
+            if (e.key === "Escape" && !modal.classList.contains("hidden")) cerrarModal();
+        });
+        input.addEventListener("input", () => error.classList.add("hidden"));
+
+        const mostrarError = (texto: string) => {
+            error.textContent = texto;
+            error.classList.remove("hidden");
+        };
+
+        const botonesRespuesta = modal.querySelectorAll<HTMLButtonElement>("[data-respuesta]");
+        let enviando = false;
+
+        const bloquearBotones = (boton: HTMLButtonElement | null) => {
+            botonesRespuesta.forEach((b) => {
+                b.disabled = !!boton;
+                b.classList.toggle("opacity-60", !!boton);
+                if (!b.dataset.texto) b.dataset.texto = b.textContent?.trim() ?? "";
+                b.textContent = b === boton ? "Enviando..." : (b.dataset.texto ?? "");
+            });
+        };
+
+        botonesRespuesta.forEach((boton) => {
+            boton.addEventListener("click", async () => {
+                if (enviando) return;
+                const nombre = input.value.trim();
+                if (!nombre) {
+                    mostrarError("Por favor, escribe tu nombre");
+                    input.focus({ preventScroll: true });
+                    return;
+                }
+                if (!SCRIPT_URL) {
+                    mostrarError("La confirmación todavía no está activa.");
+                    return;
+                }
+                const asistira = boton.dataset.respuesta === "si";
+
+                // urlencoded: Apps Script lo lee directo en e.parameter
+                const datos = new URLSearchParams();
+                datos.append("nombre", nombre);
+                datos.append("asistencia", asistira ? "si" : "no");
+
+                enviando = true;
+                error.classList.add("hidden");
+                bloquearBotones(boton);
+
+                try {
+                    const respuesta = await fetch(SCRIPT_URL, {
+                        method: "POST",
+                        headers: { "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8" },
+                        body: datos.toString(),
+                    });
+                    const cuerpo = await respuesta.json();
+                    if (!respuesta.ok || !cuerpo.ok) throw new Error(cuerpo.error || respuesta.status);
+                } catch (fallo) {
+                    console.error("[Confirmar] falló el envío:", fallo);
+                    mostrarError("Hubo un error de conexión, intenta de nuevo.");
+                    return;
+                } finally {
+                    enviando = false;
+                    bloquearBotones(null);
+                }
+
+                textoGracias.textContent = asistira
+                    ? `${nombre}, nos alegra mucho que nos acompañes. ¡Te esperamos!`
+                    : `${nombre}, gracias por avisarnos. Te tendremos presente en este día tan especial.`;
+                pasoFormulario.classList.add("hidden");
+                pasoGracias.classList.remove("hidden");
+                input.value = "";
+                gsap.fromTo(pasoGracias, { opacity: 0, y: 15 }, { opacity: 1, y: 0, duration: 0.5, ease: "power2.out" });
+            });
+        });
+    };
+
+    document.addEventListener("DOMContentLoaded", initModalConfirmacion);
+</script>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- 🎬 ANIMACIONES CON GSAP                                     -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<script>
+    import { gsap } from "gsap";
+    import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+    gsap.registerPlugin(ScrollTrigger);
+
+    const initDespedidaBoda = () => {
+        console.log("💑 Iniciando componente Despedida de Boda...");
+
+        // ═══ ESTADO INICIAL ═══
+        gsap.set("#despedida-content", {
+            opacity: 0,
+            y: 30,
+        });
+
+        // Flores laterales - Estado inicial
+        gsap.set("#flor-despedida-left", {
+            opacity: 0,
+            x: -40,
+            rotation: -8,
+            scale: 0.9,
+        });
+
+        gsap.set("#flor-despedida-right", {
+            opacity: 0,
+            x: 40,
+            rotation: 8,
+            scaleX: -0.9,
+            scaleY: 0.9,
+        });
+
+        // Hojas doradas - Estado inicial
+        gsap.set("#hoja-despedida-left", {
+            opacity: 0,
+            scale: 0,
+            rotation: -6,
+            transformOrigin: "bottom center",
+        });
+
+        gsap.set("#hoja-despedida-right", {
+            opacity: 0,
+            scaleX: 0,
+            scaleY: 0,
+            rotation: 6,
+            transformOrigin: "bottom center",
+        });
+
+        gsap.set("#mano-pointer-despedida", {
+            opacity: 0,
+            scale: 0.8,
+        });
+
+        // ═══ ANIMACIÓN AL ENTRAR ═══
+        ScrollTrigger.create({
+            trigger: "#wrapper-despedida",
+            start: "top 75%",
+            end: "top 20%",
+
+            onEnter: () => {
+                const tl = gsap.timeline();
+
+                // 1️⃣ CONTENIDO PRINCIPAL
+                tl.to(
+                    "#despedida-content",
+                    {
+                        opacity: 1,
+                        y: 0,
+                        duration: 1.6,
+                        ease: "power3.out",
+                    },
+                    0,
+                )
+
+                    // 🌸 FLORES LATERALES - Entrada suave
+                    .to(
+                        "#flor-despedida-left",
+                        {
+                            opacity: 0.75,
+                            x: 0,
+                            rotation: -3,
+                            scale: 1,
+                            duration: 2.8,
+                            ease: "sine.out",
+                        },
+                        0,
+                    )
+
+                    .to(
+                        "#flor-despedida-right",
+                        {
+                            opacity: 0.75,
+                            x: 0,
+                            rotation: 3,
+                            scaleX: -1,
+                            scaleY: 1,
+                            duration: 2.8,
+                            ease: "sine.out",
+                        },
+                        0.05,
+                    )
+
+                    // 🍃 HOJAS DORADAS - Crecimiento natural
+                    .to(
+                        "#hoja-despedida-left",
+                        {
+                            opacity: 0.7,
+                            scale: 0.9,
+                            rotation: -3,
+                            duration: 2.2,
+                            ease: "sine.out",
+                        },
+                        0.1,
+                    )
+
+                    .to(
+                        "#hoja-despedida-right",
+                        {
+                            opacity: 0.7,
+                            scaleX: -0.9,
+                            scaleY: 0.9,
+                            rotation: 3,
+                            duration: 2.2,
+                            ease: "sine.out",
+                        },
+                        0.15,
+                    )
+
+                    // 3️⃣ MANO después de todo
+                    .to(
+                        "#mano-pointer-despedida",
+                        {
+                            opacity: 1,
+                            scale: 1,
+                            duration: 0.5,
+                            ease: "back.out(2)",
+                        },
+                        1.8,
+                    );
+
+                // ═══════════════════════════════════════════════════
+                // 🍃 MOVIMIENTOS MÁS NOTORIOS Y NATURALES
+                // ═══════════════════════════════════════════════════
+
+                // Flor izquierda - Movimiento más amplio
+                gsap.to("#flor-despedida-left", {
+                    y: -15,
+                    x: -8,
+                    rotation: -12,
+                    duration: 3,
+                    repeat: -1,
+                    yoyo: true,
+                    ease: "sine.inOut",
+                    delay: 3,
+                });
+
+                // Flor derecha - Movimiento más amplio inverso
+                gsap.to("#flor-despedida-right", {
+                    y: -12,
+                    x: 8,
+                    rotation: 12,
+                    duration: 3.3,
+                    repeat: -1,
+                    yoyo: true,
+                    ease: "sine.inOut",
+                    delay: 3.2,
+                });
+
+                // Hoja izquierda - Balanceo más pronunciado
+                gsap.to("#hoja-despedida-left", {
+                    y: -18,
+                    rotation: -15,
+                    duration: 3.5,
+                    repeat: -1,
+                    yoyo: true,
+                    ease: "sine.inOut",
+                    delay: 3.3,
+                });
+
+                // Hoja derecha - Balanceo más pronunciado
+                gsap.to("#hoja-despedida-right", {
+                    y: -16,
+                    rotation: 15,
+                    duration: 3.8,
+                    repeat: -1,
+                    yoyo: true,
+                    ease: "sine.inOut",
+                    delay: 3.5,
+                });
+
+                // ═══ RESPIRACIÓN MÁS VISIBLE ═══
+                gsap.to("#hoja-despedida-left", {
+                    scale: 0.8,
+                    duration: 4,
+                    repeat: -1,
+                    yoyo: true,
+                    ease: "sine.inOut",
+                    delay: 4,
+                });
+
+                gsap.to("#hoja-despedida-right", {
+                    scaleX: -0.8,
+                    scaleY: 0.8,
+                    duration: 4.5,
+                    repeat: -1,
+                    yoyo: true,
+                    ease: "sine.inOut",
+                    delay: 4.3,
+                });
+
+                // ═══ MOVIMIENTO HORIZONTAL ADICIONAL (Efecto brisa) ═══
+                gsap.to("#flor-despedida-left", {
+                    x: -12,
+                    duration: 5,
+                    repeat: -1,
+                    yoyo: true,
+                    ease: "sine.inOut",
+                    delay: 4.5,
+                });
+
+                gsap.to("#flor-despedida-right", {
+                    x: 12,
+                    duration: 5.5,
+                    repeat: -1,
+                    yoyo: true,
+                    ease: "sine.inOut",
+                    delay: 4.8,
+                });
+
+                // ═══ ANIMACIÓN DE PRESIONAR BOTÓN (loop infinito) ═══
+                gsap.to("#mano-pointer-despedida", {
+                    scale: 0.9,
+                    duration: 0.6,
+                    ease: "power1.inOut",
+                    repeat: -1,
+                    yoyo: true,
+                    delay: 2.5,
+                });
+            },
+
+            onLeaveBack: () => {
+                // Detener todas las animaciones continuas
+                gsap.killTweensOf("#mano-pointer-despedida");
+                gsap.killTweensOf("#flor-despedida-left");
+                gsap.killTweensOf("#flor-despedida-right");
+                gsap.killTweensOf("#hoja-despedida-left");
+                gsap.killTweensOf("#hoja-despedida-right");
+
+                const tl = gsap.timeline();
+
+                tl.to("#despedida-content, #mano-pointer-despedida", {
+                    opacity: 0,
+                    duration: 0.3,
+                    ease: "power2.in",
+                })
+
+                    .to(
+                        "#despedida-content",
+                        {
+                            y: 30,
+                            duration: 0.5,
+                            ease: "power2.in",
+                        },
+                        "<",
+                    )
+
+                    .to(
+                        "#flor-despedida-left",
+                        {
+                            opacity: 0,
+                            x: -40,
+                            duration: 1,
+                            ease: "sine.in",
+                        },
+                        "<",
+                    )
+
+                    .to(
+                        "#flor-despedida-right",
+                        {
+                            opacity: 0,
+                            x: 40,
+                            duration: 1,
+                            ease: "sine.in",
+                        },
+                        "<",
+                    )
+
+                    .to(
+                        "#hoja-despedida-left, #hoja-despedida-right",
+                        {
+                            opacity: 0,
+                            scale: 0,
+                            duration: 0.8,
+                            ease: "sine.in",
+                        },
+                        "<",
+                    )
+
+                    .to(
+                        "#mano-pointer-despedida",
+                        {
+                            scale: 0.8,
+                            duration: 0.5,
+                            ease: "power2.in",
+                        },
+                        "<",
+                    )
+
+                    .set("#flor-despedida-left", {
+                        rotation: -8,
+                        scale: 0.9,
+                        x: -40,
+                        y: 0,
+                    })
+                    .set("#flor-despedida-right", {
+                        rotation: 8,
+                        scaleX: -0.9,
+                        scaleY: 0.9,
+                        x: 40,
+                        y: 0,
+                    })
+                    .set("#hoja-despedida-left", {
+                        rotation: -6,
+                        scale: 0,
+                        y: 0,
+                    })
+                    .set("#hoja-despedida-right", {
+                        scaleX: 0,
+                        scaleY: 0,
+                        rotation: 6,
+                        y: 0,
+                    });
+            },
+        });
+
+        console.log("💑✨ Despedida de Boda con flores y hojas activada!");
+    };
+
+    document.addEventListener("DOMContentLoaded", initDespedidaBoda);
+    document.addEventListener("astro:page-load", initDespedidaBoda);
+</script>

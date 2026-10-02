@@ -1,0 +1,632 @@
+---
+// src/components/Portada.astro - Portada elegante con hojas animadas y fondo texturizado
+---
+
+<section
+    class="fixed inset-0 w-full h-screen flex justify-center z-[10000]"
+    id="portada-section"
+    style="background-image: url('/imagenes/BlancoTextura.webp'); background-size: cover; background-position: center; background-repeat: no-repeat;"
+>
+    <div class="relative w-full max-w-[480px]">
+        <!-- Decoración floral superior -->
+        <div class="absolute top-0 left-0 right-0 h-32 overflow-hidden z-[8]">
+            <div id="flor-izq" class="absolute top-0 -left-2 w-36 h-36">
+                <img
+                    src="/imagenes/floriz.png"
+                    alt=""
+                    class="w-full h-full object-contain"
+                />
+            </div>
+            <div id="flor-der" class="absolute top-0 -right-2 w-36 h-36">
+                <img
+                    src="/imagenes/florde.png"
+                    alt=""
+                    class="w-full h-full object-contain"
+                />
+            </div>
+        </div>
+
+        <!-- ═════════════════════════════════════════════════════════════ -->
+        <!-- 🌸 HOJAS DECORATIVAS ANIMADAS AL LADO DE LOS NOMBRES           -->
+        <!-- ═════════════════════════════════════════════════════════════ -->
+
+        <!-- HOJAS DORADAS (capa inferior) -->
+        <img
+            src="/imagenes/hojadorada.png"
+            alt="hoja dorada izquierda"
+            class="absolute left-2 top-[42%] w-18 h-18 md:w-28 md:h-28 pointer-events-none z-[5]"
+            id="hoja-dorada-izq"
+        />
+        <img
+            src="/imagenes/hojadorada.png"
+            alt="hoja dorada derecha"
+            class="absolute right-2 top-[42%] w-18 h-18 md:w-28 md:h-28 pointer-events-none z-[5] scale-x-[-1]"
+            id="hoja-dorada-der"
+        />
+
+        <!-- FLORES LATERALES (capa superior) -->
+        <img
+            src="/imagenes/florlateral.png"
+            alt="flor lateral izquierda"
+            class="absolute left-0 top-[41%] w-18 h-18 md:w-28 md:h-28 pointer-events-none z-[6]"
+            id="flor-lateral-izq"
+        />
+        <img
+            src="/imagenes/florlateral.png"
+            alt="flor lateral derecha"
+            class="absolute right-0 top-[41%] w-18 h-18 md:w-28 md:h-28 pointer-events-none z-[6] scale-x-[-1]"
+            id="flor-lateral-der"
+        />
+
+        <!-- Contenido principal -->
+        <div class="relative z-10 pt-28 pb-2 px-6">
+            <!-- Título: ¡NOS CASAMOS! -->
+            <h1
+                id="titulo"
+                class="text-2xl font-serif text-[#c9a961] text-center mb-8 tracking-[0.3em] font-bold uppercase"
+            >
+                ¡Nos Casamos!
+            </h1>
+
+            <!-- Nombres de los novios con separador -->
+            <div class="mb-8">
+                <div
+                    id="nombre-fernando"
+                    class="text-5xl font-script text-[#0a285e] text-center mb-2"
+                >
+                    Daniel
+                </div>
+
+                <!-- Separador elegante -->
+                <div class="flex items-center justify-center gap-4 py-3">
+                    <div
+                        id="linea-izq"
+                        class="h-px w-16 bg-gradient-to-r from-transparent to-[#c9a961]"
+                    >
+                    </div>
+                    <span
+                        id="ampersand"
+                        class="text-3xl text-[#c9a961] font-script">&</span
+                    >
+                    <div
+                        id="linea-der"
+                        class="h-px w-16 bg-gradient-to-l from-transparent to-[#c9a961]"
+                    >
+                    </div>
+                </div>
+
+                <div
+                    id="nombre-abigail"
+                    class="text-5xl font-script text-[#0a285e] text-center mt-2"
+                >
+                    Melany
+                </div>
+            </div>
+
+            <!-- Fecha -->
+            <div id="fecha" class="text-center mb-8 font-serif text-[#0a285e]">
+                <p class="font-charm text-2xl tracking-wider">
+                    Domingo 19 de Abril
+                </p>
+            </div>
+
+            <!-- Sobre -->
+            <div
+                id="sobre-container"
+                class="flex justify-center mb-6 cursor-pointer"
+            >
+                <div class="relative">
+                    <img
+                        src="/imagenes/sobre.webp"
+                        alt="Sobre de invitación"
+                        class="w-[280px] drop-shadow-lg"
+                    />
+                </div>
+            </div>
+
+            <!-- Texto instrucción -->
+            <p
+                id="instruccion"
+                class="text-center text-[#0a285e] font-serif text-sm uppercase font-bold tracking-[0.2em] px-4"
+            >
+                Toca el sobre para abrir la invitación
+            </p>
+        </div>
+    </div>
+</section>
+
+<style>
+    @import url("https://fonts.googleapis.com/css2?family=Great+Vibes&family=Cormorant:wght@300;400;600;700&display=swap");
+
+    .font-script {
+        font-family: "Great Vibes", cursive;
+    }
+
+    .font-serif {
+        font-family: "Cormorant", serif;
+    }
+
+    /* Bloquear scroll cuando la portada está activa */
+    body.portada-activa {
+        overflow: hidden !important;
+        height: 100vh !important;
+    }
+</style>
+
+<script>
+    import { gsap } from "gsap";
+
+    if (typeof window !== "undefined") {
+        document.addEventListener("DOMContentLoaded", () => {
+            console.log("✨ Iniciando animaciones elegantes de portada...");
+
+            // ═══════════════════════════════════════════════════════
+            // 🔒 BLOQUEAR SCROLL
+            // ═══════════════════════════════════════════════════════
+
+            document.body.classList.add("portada-activa");
+            console.log("🔒 Scroll bloqueado - Portada activa");
+
+            // ═══════════════════════════════════════════════════════
+            // 🎬 ESTADO INICIAL - TODO OCULTO
+            // ═══════════════════════════════════════════════════════
+
+            // Elementos principales - SIN OPACITY EN FLORES SUPERIORES
+            gsap.set("#flor-izq", { x: -60, scale: 0.8 }); // ✅ SIN opacity
+            gsap.set("#flor-der", { x: 60, scale: 0.8 }); // ✅ SIN opacity
+            gsap.set("#titulo", { opacity: 0, y: -30, scale: 0.95 });
+            gsap.set("#nombre-fernando", { opacity: 0, x: -40, scale: 0.9 });
+            gsap.set("#nombre-abigail", { opacity: 0, x: 40, scale: 0.9 });
+            gsap.set("#linea-izq", { scaleX: 0, transformOrigin: "right" });
+            gsap.set("#linea-der", { scaleX: 0, transformOrigin: "left" });
+            gsap.set("#ampersand", { opacity: 0, scale: 0, rotation: -180 });
+            gsap.set("#fecha", { opacity: 0, y: 20 });
+            gsap.set("#sobre-container", { opacity: 0, y: 30, scale: 0.9 });
+            gsap.set("#instruccion", { opacity: 0 });
+
+            // Hojas decorativas laterales
+            gsap.set("#hoja-dorada-izq", {
+                opacity: 0,
+                x: -30,
+                rotation: 0,
+                scale: 1,
+            });
+            gsap.set("#hoja-dorada-der", {
+                opacity: 0,
+                x: 30,
+                rotation: 0,
+                scaleX: -1,
+                scaleY: 1,
+            });
+            gsap.set("#flor-lateral-izq", {
+                opacity: 0,
+                x: -30,
+                rotation: 0,
+                scale: 1,
+            });
+            gsap.set("#flor-lateral-der", {
+                opacity: 0,
+                x: 30,
+                rotation: 0,
+                scaleX: -1,
+                scaleY: 1,
+            });
+
+            // ═══════════════════════════════════════════════════════
+            // 🎬 ANIMACIONES DE ENTRADA
+            // ═══════════════════════════════════════════════════════
+
+            const tl = gsap.timeline({ delay: 0.3 });
+
+            // Fase 1: Flores superiores y título (0s) - SIN OPACITY
+            tl.to(
+                "#flor-izq",
+                {
+                    x: 0,
+                    scale: 1,
+                    duration: 1.2,
+                    ease: "power2.out",
+                },
+                0,
+            )
+                .to(
+                    "#flor-der",
+                    {
+                        x: 0,
+                        scale: 1,
+                        duration: 1.2,
+                        ease: "power2.out",
+                    },
+                    0,
+                )
+                .to(
+                    "#titulo",
+                    {
+                        opacity: 1,
+                        y: 0,
+                        scale: 1,
+                        duration: 1.2,
+                        ease: "power2.out",
+                    },
+                    0,
+                );
+
+            // Fase 2: Nombres desde los lados (0.4s)
+            tl.to(
+                "#nombre-fernando",
+                {
+                    opacity: 1,
+                    x: 0,
+                    scale: 1,
+                    duration: 1,
+                    ease: "power2.out",
+                },
+                0.4,
+            ).to(
+                "#nombre-abigail",
+                {
+                    opacity: 1,
+                    x: 0,
+                    scale: 1,
+                    duration: 1,
+                    ease: "power2.out",
+                },
+                0.4,
+            );
+
+            // Fase 3: Hojas decorativas laterales (0.6s)
+            tl.to(
+                "#flor-lateral-izq",
+                {
+                    opacity: 0.85,
+                    x: 0,
+                    duration: 1.2,
+                    ease: "power2.out",
+                },
+                0.6,
+            )
+                .to(
+                    "#flor-lateral-der",
+                    {
+                        opacity: 0.85,
+                        x: 0,
+                        duration: 1.2,
+                        ease: "power2.out",
+                    },
+                    0.6,
+                )
+                .to(
+                    "#hoja-dorada-izq",
+                    {
+                        opacity: 0.9,
+                        x: 0,
+                        duration: 1.2,
+                        ease: "power2.out",
+                    },
+                    0.8,
+                )
+                .to(
+                    "#hoja-dorada-der",
+                    {
+                        opacity: 0.9,
+                        x: 0,
+                        duration: 1.2,
+                        ease: "power2.out",
+                    },
+                    0.8,
+                );
+
+            // Fase 4: Separador (0.6s)
+            tl.to(
+                "#linea-izq",
+                {
+                    scaleX: 1,
+                    duration: 0.8,
+                    ease: "power2.out",
+                },
+                0.6,
+            )
+                .to(
+                    "#linea-der",
+                    {
+                        scaleX: 1,
+                        duration: 0.8,
+                        ease: "power2.out",
+                    },
+                    0.6,
+                )
+                .to(
+                    "#ampersand",
+                    {
+                        opacity: 1,
+                        scale: 1,
+                        rotation: 0,
+                        duration: 0.8,
+                        ease: "back.out(1.5)",
+                    },
+                    0.7,
+                );
+
+            // Fase 5: Fecha, sobre e instrucción (1.2s)
+            tl.to(
+                "#fecha",
+                {
+                    opacity: 1,
+                    y: 0,
+                    duration: 1,
+                    ease: "power2.out",
+                },
+                1.2,
+            )
+                .to(
+                    "#sobre-container",
+                    {
+                        opacity: 1,
+                        y: 0,
+                        scale: 1,
+                        duration: 1,
+                        ease: "power2.out",
+                    },
+                    1.2,
+                )
+                .to(
+                    "#instruccion",
+                    {
+                        opacity: 1,
+                        duration: 0.8,
+                        ease: "power2.out",
+                    },
+                    1.4,
+                );
+
+            // ═══════════════════════════════════════════════════════
+            // 🍃 MOVIMIENTOS NATURALES DE LAS HOJAS (después de 2s)
+            // ═══════════════════════════════════════════════════════
+
+            tl.add(() => {
+                console.log("🍃 Iniciando movimientos naturales de hojas");
+
+                // Flores superiores - SIN OPACITY, solo movimiento
+                gsap.to("#flor-izq", {
+                    y: -4,
+                    x: -2,
+                    rotation: -3,
+                    duration: 4.5,
+                    repeat: -1,
+                    yoyo: true,
+                    ease: "sine.inOut",
+                });
+
+                gsap.to("#flor-der", {
+                    y: -3.5,
+                    x: 2,
+                    rotation: 3,
+                    duration: 5,
+                    repeat: -1,
+                    yoyo: true,
+                    ease: "sine.inOut",
+                });
+
+                gsap.to("#flor-izq", {
+                    scale: 0.94,
+                    duration: 5.5,
+                    repeat: -1,
+                    yoyo: true,
+                    ease: "sine.inOut",
+                });
+
+                gsap.to("#flor-der", {
+                    scale: 0.94,
+                    duration: 6,
+                    repeat: -1,
+                    yoyo: true,
+                    ease: "sine.inOut",
+                });
+
+                // Flores laterales
+                gsap.to("#flor-lateral-izq", {
+                    y: -10,
+                    x: -5,
+                    rotation: -8,
+                    duration: 3.5,
+                    repeat: -1,
+                    yoyo: true,
+                    ease: "sine.inOut",
+                });
+
+                gsap.to("#flor-lateral-der", {
+                    y: -8,
+                    x: 5,
+                    rotation: 8,
+                    duration: 3.8,
+                    repeat: -1,
+                    yoyo: true,
+                    ease: "sine.inOut",
+                });
+
+                gsap.to("#hoja-dorada-izq", {
+                    y: -12,
+                    rotation: -10,
+                    duration: 4,
+                    repeat: -1,
+                    yoyo: true,
+                    ease: "sine.inOut",
+                });
+
+                gsap.to("#hoja-dorada-der", {
+                    y: -11,
+                    rotation: 10,
+                    scaleX: -0.85,
+                    scaleY: 0.85,
+                    duration: 4.3,
+                    repeat: -1,
+                    yoyo: true,
+                    ease: "sine.inOut",
+                });
+
+                gsap.to("#hoja-dorada-izq", {
+                    scale: 0.85,
+                    duration: 4.5,
+                    repeat: -1,
+                    yoyo: true,
+                    ease: "sine.inOut",
+                });
+
+                gsap.to("#flor-lateral-izq", {
+                    x: -8,
+                    duration: 5.5,
+                    repeat: -1,
+                    yoyo: true,
+                    ease: "sine.inOut",
+                });
+
+                gsap.to("#flor-lateral-der", {
+                    x: 8,
+                    duration: 6,
+                    repeat: -1,
+                    yoyo: true,
+                    ease: "sine.inOut",
+                });
+            }, 2);
+
+            // ═══════════════════════════════════════════════════════
+            // 🖱️ HOVER ELEGANTE EN EL SOBRE
+            // ═══════════════════════════════════════════════════════
+
+            const sobreContainer = document.getElementById("sobre-container");
+
+            if (sobreContainer) {
+                sobreContainer.addEventListener("mouseenter", () => {
+                    gsap.to("#sobre-container", {
+                        y: -10,
+                        scale: 1.05,
+                        duration: 0.3,
+                        ease: "power2.out",
+                    });
+                });
+
+                sobreContainer.addEventListener("mouseleave", () => {
+                    gsap.to("#sobre-container", {
+                        y: 0,
+                        scale: 1,
+                        duration: 0.3,
+                        ease: "power2.out",
+                    });
+                });
+            }
+
+            // ═══════════════════════════════════════════════════════
+            // 📨 CLICK EN EL SOBRE → REPRODUCIR MÚSICA Y ABRIR
+            // ═══════════════════════════════════════════════════════
+
+            const portadaSection = document.getElementById("portada-section");
+
+            sobreContainer?.addEventListener("click", () => {
+                console.log("📨 Abriendo invitación y reproduciendo música...");
+
+                gsap.killTweensOf("#flor-izq");
+                gsap.killTweensOf("#flor-der");
+                gsap.killTweensOf("#flor-lateral-izq");
+                gsap.killTweensOf("#flor-lateral-der");
+                gsap.killTweensOf("#hoja-dorada-izq");
+                gsap.killTweensOf("#hoja-dorada-der");
+
+                const audio = new Audio("/musica/melodia2.mp3");
+                audio.loop = true;
+                audio.volume = 0.5;
+                audio.play().catch((error) => {
+                    console.log("❌ Error al reproducir audio:", error);
+                });
+
+                (window as any).audioGlobal = audio;
+                (window as any).estaReproduciendoGlobal = true;
+
+                console.log("✅ Audio creado y guardado en window.audioGlobal");
+
+                const tlSalida = gsap.timeline();
+
+                tlSalida
+                    .to("#sobre-container", {
+                        scale: 1.1,
+                        duration: 0.2,
+                        ease: "power2.in",
+                    })
+                    .to(
+                        [
+                            "#instruccion",
+                            "#fecha",
+                            "#nombre-abigail",
+                            "#nombre-fernando",
+                            "#ampersand",
+                            "#linea-izq",
+                            "#linea-der",
+                            "#titulo",
+                        ],
+                        {
+                            opacity: 0,
+                            y: -20,
+                            duration: 0.4,
+                            stagger: 0.03,
+                            ease: "power2.in",
+                        },
+                        0.1,
+                    )
+                    .to(
+                        [
+                            "#flor-izq",
+                            "#flor-der",
+                            "#flor-lateral-izq",
+                            "#flor-lateral-der",
+                            "#hoja-dorada-izq",
+                            "#hoja-dorada-der",
+                        ],
+                        {
+                            opacity: 0,
+                            scale: 0.8,
+                            duration: 0.4,
+                            ease: "power2.in",
+                        },
+                        0.1,
+                    )
+                    .to(
+                        "#sobre-container",
+                        {
+                            opacity: 0,
+                            scale: 1.3,
+                            duration: 0.4,
+                            ease: "power2.in",
+                        },
+                        0.3,
+                    )
+                    .to(
+                        portadaSection,
+                        {
+                            opacity: 0,
+                            duration: 0.5,
+                            ease: "power2.in",
+                            onStart: () => {
+                                document.body.classList.remove(
+                                    "portada-activa",
+                                );
+                                console.log(
+                                    "🔓 Scroll desbloqueado - Contenido visible",
+                                );
+                            },
+                            onComplete: () => {
+                                portadaSection?.remove();
+                                console.log("✅ Portada eliminada del DOM");
+
+                                window.scrollTo({
+                                    top: 0,
+                                    behavior: "smooth",
+                                });
+                            },
+                        },
+                        0.5,
+                    );
+            });
+
+            console.log("✨ Sistema de portada elegante con hojas listo!");
+        });
+    }
+</script>

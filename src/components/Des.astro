@@ -1,0 +1,189 @@
+---
+// DespedidaFinal.astro - Despedida con el escudo de Ravenclaw y la frase de los novios
+---
+
+<section
+    class="relative w-full overflow-hidden pt-12 pb-28 md:pt-16 md:pb-32"
+    id="despedida-final"
+>
+    <!-- Destellos de luz flotando, como un "Lumos" -->
+    <div class="absolute inset-0 pointer-events-none">
+        <span class="destello-luz" style="left: 12%; top: 30%; animation-delay: 0s;"></span>
+        <span class="destello-luz" style="left: 86%; top: 26%; animation-delay: 1.4s;"></span>
+        <span class="destello-luz" style="left: 20%; top: 58%; animation-delay: 2.6s;"></span>
+        <span class="destello-luz" style="left: 80%; top: 62%; animation-delay: 3.4s;"></span>
+    </div>
+
+    <div class="relative z-10 text-center px-6 max-w-xl mx-auto">
+        <!-- Agradecimiento -->
+        <h2
+            class="text-[#9C7A2E] tracking-[0.2em] uppercase text-xl md:text-2xl lg:text-2xl xl:text-3xl font-semibold mb-3 opacity-0"
+            id="titulo-agradecimiento"
+        >
+            Gracias por acompañarnos
+        </h2>
+        <p
+            class="font-charm text-[#0a285e]/80 text-lg md:text-2xl leading-relaxed opacity-0"
+            id="subtitulo-agradecimiento"
+        >
+            en el día más especial de nuestras vidas,<br />
+            te esperamos con los brazos abiertos
+        </p>
+
+        <!-- Escudo dentro de un aro dorado -->
+        <div class="relative flex justify-center items-center my-10 md:my-12 opacity-0" id="escudo-ravenclaw">
+            <div
+                class="absolute w-52 h-52 md:w-64 md:h-64 rounded-full blur-2xl resplandor-escudo"
+                id="resplandor-ravenclaw"
+            >
+            </div>
+            <div
+                class="absolute w-44 h-44 md:w-52 md:h-52 rounded-full border border-[#C9A961]/60"
+            >
+            </div>
+            <div
+                class="absolute w-[11.5rem] h-[11.5rem] md:w-[13.5rem] md:h-[13.5rem] rounded-full border border-[#C9A961]/25"
+            >
+            </div>
+            <img
+                src="/imagenes/logo.webp"
+                alt="Escudo de Ravenclaw"
+                class="relative w-28 md:w-36 h-auto object-contain drop-shadow-[0_6px_14px_rgba(10,40,94,0.2)]"
+                width="320"
+                height="381"
+            />
+        </div>
+
+        <!-- Nombres en una línea -->
+        <h1
+            class="font-great-vibes text-[#C9A961] text-5xl md:text-6xl leading-tight opacity-0"
+            id="nombres-final"
+        >
+            David <span class="text-[#0a285e] text-4xl md:text-5xl">&</span> Dina
+        </h1>
+
+        <!-- Línea decorativa -->
+        <div class="flex items-center justify-center gap-3 my-6 opacity-0" id="linea-ravenclaw">
+            <div class="w-14 md:w-20 h-px bg-gradient-to-r from-transparent to-[#C9A961]"></div>
+            <span class="text-[#C9A961] text-xs">✦</span>
+            <div class="w-14 md:w-20 h-px bg-gradient-to-l from-transparent to-[#C9A961]"></div>
+        </div>
+
+        <!-- Frase -->
+        <p
+            class="font-charm italic text-[#0a285e]/85 text-lg md:text-xl leading-relaxed max-w-xs md:max-w-md mx-auto mb-3 opacity-0"
+            id="frase-ravenclaw"
+        >
+            “Happiness can be found even in the darkest of times, if one only
+            remembers to turn on the light.”
+        </p>
+        <p
+            class="font-cormorant text-[#9C7A2E] text-xs md:text-sm tracking-[0.35em] uppercase opacity-0"
+            id="autor-ravenclaw"
+        >
+            Albus Dumbledore
+        </p>
+
+        <!-- Flor inferior -->
+        <div class="flex justify-center mt-10 opacity-0" id="ornamento-bottom-final">
+            <img
+                src="/imagenes/florseparador.png"
+                alt="Decoración floral inferior"
+                class="w-32 h-32 md:w-40 md:h-40 object-contain"
+            />
+        </div>
+    </div>
+</section>
+
+<style>
+    /* Resplandor detrás del escudo (como imagen: el modo oscuro no lo altera) */
+    .resplandor-escudo {
+        background-image: radial-gradient(
+            circle,
+            rgba(201, 169, 97, 0.28) 0%,
+            rgba(10, 40, 94, 0.08) 55%,
+            transparent 75%
+        );
+    }
+
+    .destello-luz {
+        position: absolute;
+        width: 5px;
+        height: 5px;
+        border-radius: 50%;
+        background-image: radial-gradient(circle, #c9a961 0%, transparent 70%);
+        animation: flotar-luz 5s ease-in-out infinite;
+        opacity: 0;
+    }
+
+    @keyframes flotar-luz {
+        0%,
+        100% {
+            transform: translateY(0);
+            opacity: 0;
+        }
+        50% {
+            transform: translateY(-25px);
+            opacity: 0.8;
+        }
+    }
+</style>
+
+<script>
+    import { gsap } from "gsap";
+    import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+    gsap.registerPlugin(ScrollTrigger);
+
+    const initDespedidaFinal = () => {
+        const estadoInicial = () => {
+            gsap.set("#titulo-agradecimiento, #subtitulo-agradecimiento", { opacity: 0, y: 30 });
+            gsap.set("#escudo-ravenclaw", { opacity: 0, scale: 0.85, y: 20 });
+            gsap.set("#resplandor-ravenclaw", { opacity: 0, scale: 0.6 });
+            gsap.set("#nombres-final", { opacity: 0, y: 30 });
+            gsap.set("#linea-ravenclaw", { opacity: 0, scaleX: 0 });
+            gsap.set("#frase-ravenclaw, #autor-ravenclaw", { opacity: 0, y: 20 });
+            gsap.set("#ornamento-bottom-final", { opacity: 0, scale: 0.6 });
+        };
+
+        estadoInicial();
+
+        ScrollTrigger.create({
+            trigger: "#despedida-final",
+            start: "top 75%",
+
+            onEnter: () => {
+                const tl = gsap.timeline();
+
+                tl.to("#titulo-agradecimiento", { opacity: 1, y: 0, duration: 1, ease: "power3.out" }, 0)
+                    .to("#subtitulo-agradecimiento", { opacity: 1, y: 0, duration: 1, ease: "power3.out" }, 0.2)
+                    // La luz se "enciende" y aparece el escudo
+                    .to("#resplandor-ravenclaw", { opacity: 1, scale: 1, duration: 1.6, ease: "power2.out" }, 0.5)
+                    .to("#escudo-ravenclaw", { opacity: 1, scale: 1, y: 0, duration: 1.2, ease: "power3.out" }, 0.6)
+                    .to("#nombres-final", { opacity: 1, y: 0, duration: 1.2, ease: "power3.out" }, 1.1)
+                    .to("#linea-ravenclaw", { opacity: 1, scaleX: 1, duration: 0.9, ease: "power2.out" }, 1.4)
+                    .to("#frase-ravenclaw", { opacity: 1, y: 0, duration: 1.2, ease: "power2.out" }, 1.6)
+                    .to("#autor-ravenclaw", { opacity: 1, y: 0, duration: 0.9, ease: "power2.out" }, 1.9)
+                    .to("#ornamento-bottom-final", { opacity: 1, scale: 1, duration: 1.2, ease: "back.out(1.5)" }, 2.1);
+
+                // Resplandor que respira suave
+                gsap.to("#resplandor-ravenclaw", {
+                    scale: 1.12,
+                    opacity: 0.7,
+                    duration: 2.5,
+                    repeat: -1,
+                    yoyo: true,
+                    ease: "sine.inOut",
+                    delay: 2.2,
+                });
+            },
+
+            onLeaveBack: () => {
+                gsap.killTweensOf("#resplandor-ravenclaw");
+                estadoInicial();
+            },
+        });
+    };
+
+    document.addEventListener("DOMContentLoaded", initDespedidaFinal);
+</script>

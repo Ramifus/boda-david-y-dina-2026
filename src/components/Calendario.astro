@@ -1,0 +1,175 @@
+---
+// Calendario.astro - "Reserva la fecha" con el día de la boda marcado
+const AÑO = 2026;
+const MES = 10; // octubre
+const DIA_BODA = 31;
+
+const MESES = [
+    "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio",
+    "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre",
+];
+const DIAS_SEMANA = ["Lun", "Mar", "Mié", "Jue", "Vie", "Sáb", "Dom"];
+
+// Lunes = 0 ... Domingo = 6
+const primerDia = (new Date(AÑO, MES - 1, 1).getDay() + 6) % 7;
+const totalDias = new Date(AÑO, MES, 0).getDate();
+const celdas = [
+    ...Array(primerDia).fill(null),
+    ...Array.from({ length: totalDias }, (_, i) => i + 1),
+];
+---
+
+<section class="relative w-full py-6 md:py-10 px-6 overflow-hidden" id="seccion-calendario">
+    <!-- Título -->
+    <h2
+        class="font-charm text-2xl md:text-3xl lg:text-3xl text-[#9C7A2E] font-bold text-center mb-8 opacity-0"
+        id="titulo-calendario"
+    >
+        RESERVA LA FECHA
+    </h2>
+
+    <div class="relative max-w-sm md:max-w-md mx-auto" id="contenedor-calendario">
+        <!-- Flor superior izquierda -->
+        <img
+            src="/imagenes/flor3.webp"
+            alt=""
+            class="absolute -top-10 -left-8 md:-top-12 md:-left-12 w-28 h-28 md:w-36 md:h-36 object-contain pointer-events-none z-20 opacity-0"
+            id="flor-calendario-sup"
+        />
+
+        <!-- Flor inferior derecha -->
+        <img
+            src="/imagenes/flor3.webp"
+            alt=""
+            class="absolute -bottom-10 -right-8 md:-bottom-12 md:-right-12 w-28 h-28 md:w-36 md:h-36 object-contain pointer-events-none z-20 opacity-0"
+            id="flor-calendario-inf"
+        />
+
+        <!-- Hoja del calendario -->
+        <div
+            class="relative z-10 border border-[#0a285e]/10 shadow-lg px-4 py-8 md:px-8 md:py-10 opacity-0 tarjeta-calendario"
+            id="tarjeta-calendario"
+        >
+            <!-- Mes y año -->
+            <p
+                class="text-[#9C7A2E] tracking-[0.2em] uppercase text-xl md:text-2xl lg:text-3xl font-semibold text-center mb-6"
+            >
+                {MESES[MES - 1]} {AÑO}
+            </p>
+
+            <!-- Días de la semana -->
+            <div class="grid grid-cols-7 gap-y-2 mb-4">
+                {DIAS_SEMANA.map((d) => (
+                    <span class="font-charm text-[#0a285e] text-base md:text-xl text-center">
+                        {d}
+                    </span>
+                ))}
+            </div>
+
+            <!-- Días del mes -->
+            <div class="grid grid-cols-7 gap-y-4 md:gap-y-5">
+                {celdas.map((dia) =>
+                    dia === null ? (
+                        <span />
+                    ) : dia === DIA_BODA ? (
+                        <span class="relative flex items-center justify-center">
+                            <svg
+                                class="absolute w-11 h-11 md:w-14 md:h-14 text-[#0a285e] corazon-calendario"
+                                viewBox="0 0 24 24"
+                                fill="currentColor"
+                                aria-hidden="true"
+                            >
+                                <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
+                            </svg>
+                            <span class="relative font-charm text-white text-lg md:text-2xl font-bold -mt-1">
+                                {dia}
+                            </span>
+                        </span>
+                    ) : (
+                        <span class="font-charm text-[#0a285e] text-lg md:text-2xl text-center">
+                            {dia}
+                        </span>
+                    ),
+                )}
+            </div>
+        </div>
+    </div>
+</section>
+
+<style>
+    /* Blanco como imagen: el modo oscuro forzado no lo invierte */
+    .tarjeta-calendario {
+        background-image: linear-gradient(#fff, #fff);
+    }
+</style>
+
+<script>
+    import { gsap } from "gsap";
+    import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+    gsap.registerPlugin(ScrollTrigger);
+
+    const initCalendario = () => {
+        // ═══ ESTADO INICIAL ═══
+        gsap.set("#titulo-calendario", { opacity: 0, y: -30 });
+        gsap.set("#tarjeta-calendario", { opacity: 0, y: 40, scale: 0.95 });
+        gsap.set("#flor-calendario-sup", { opacity: 0, x: -30, y: -30, scale: 0.8 });
+        gsap.set("#flor-calendario-inf", { opacity: 0, x: 30, y: 30, scale: 0.8, rotation: 180 });
+        gsap.set(".corazon-calendario", { scale: 0 });
+
+        ScrollTrigger.create({
+            trigger: "#seccion-calendario",
+            start: "top 80%",
+
+            onEnter: () => {
+                const tl = gsap.timeline();
+
+                tl.to("#titulo-calendario", { opacity: 1, y: 0, duration: 1, ease: "power3.out" }, 0)
+                    .to("#tarjeta-calendario", { opacity: 1, y: 0, scale: 1, duration: 1.2, ease: "power3.out" }, 0.2)
+                    .to("#flor-calendario-sup", { opacity: 1, x: 0, y: 0, scale: 1, duration: 1.6, ease: "sine.out" }, 0.5)
+                    .to("#flor-calendario-inf", { opacity: 1, x: 0, y: 0, scale: 1, duration: 1.6, ease: "sine.out" }, 0.6)
+                    .to(".corazon-calendario", { scale: 1, duration: 0.8, ease: "back.out(2)" }, 1.1);
+
+                // Latido suave del corazón
+                gsap.to(".corazon-calendario", {
+                    scale: 1.12,
+                    duration: 0.9,
+                    repeat: -1,
+                    yoyo: true,
+                    ease: "sine.inOut",
+                    delay: 2,
+                });
+
+                // Balanceo leve de las flores
+                gsap.to("#flor-calendario-sup", {
+                    rotation: -4,
+                    duration: 3.5,
+                    repeat: -1,
+                    yoyo: true,
+                    ease: "sine.inOut",
+                    delay: 2.2,
+                });
+                gsap.to("#flor-calendario-inf", {
+                    rotation: 184,
+                    duration: 3.8,
+                    repeat: -1,
+                    yoyo: true,
+                    ease: "sine.inOut",
+                    delay: 2.4,
+                });
+            },
+
+            onLeaveBack: () => {
+                gsap.killTweensOf(".corazon-calendario, #flor-calendario-sup, #flor-calendario-inf");
+
+                gsap.to("#titulo-calendario", { opacity: 0, y: -30, duration: 0.5, ease: "power2.in" });
+                gsap.to("#tarjeta-calendario", { opacity: 0, y: 40, scale: 0.95, duration: 0.5, ease: "power2.in" });
+                gsap.to("#flor-calendario-sup", { opacity: 0, x: -30, y: -30, scale: 0.8, rotation: 0, duration: 0.5, ease: "power2.in" });
+                gsap.to("#flor-calendario-inf", { opacity: 0, x: 30, y: 30, scale: 0.8, rotation: 180, duration: 0.5, ease: "power2.in" });
+                gsap.set(".corazon-calendario", { scale: 0 });
+            },
+        });
+    };
+
+    document.addEventListener("DOMContentLoaded", initCalendario);
+</script>
