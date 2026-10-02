@@ -5,6 +5,8 @@ export interface Props {
   title: string;
 }
 const { title } = Astro.props;
+const imagenPreview = new URL("/og-image.jpg", Astro.site).href;
+const urlSitio = new URL(Astro.url.pathname, Astro.site).href;
 ---
 
 <!doctype html>
@@ -12,10 +14,23 @@ const { title } = Astro.props;
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="color-scheme" content="light only" />
+    <meta name="color-scheme" content="only light" />
     <link rel="icon" type="image/png" href="/iconos/Anillos.png" />
     <meta name="generator" content={Astro.generator} />
     <title>{title}</title>
+
+    <!-- Vista previa al compartir el link (WhatsApp, Facebook) -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={urlSitio} />
+    <meta property="og:title" content={title} />
+    <meta property="og:image" content={imagenPreview} />
+    <meta property="og:image:secure_url" content={imagenPreview} />
+    <meta property="og:image:type" content="image/jpeg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Invitación a la boda de David y Dina" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content={imagenPreview} />
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -48,7 +63,7 @@ const { title } = Astro.props;
         width: 100%;
         height: 100%;
         overflow-x: hidden;
-        color-scheme: light only;
+        color-scheme: only light;
       }
 
       body {
@@ -62,7 +77,7 @@ const { title } = Astro.props;
         background-position: center;
         background-repeat: no-repeat;
         background-attachment: fixed;
-        color-scheme: light only;
+        color-scheme: only light;
         background-color: #ffffff;
       }
 
